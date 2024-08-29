@@ -24,6 +24,9 @@ class WeatherUIUtils {
 
   //
   static Widget getWeatherIcon(WeatherDetail weather) {
+
+    return _getLocalWeatherIcon(weather);
+
     final iconCode = weather.weather[0].icon;
     final iconUrl = 'http://openweathermap.org/img/wn/$iconCode@2x.png';
     return Image.network(
