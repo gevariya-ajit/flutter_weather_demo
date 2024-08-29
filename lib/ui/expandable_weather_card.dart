@@ -23,10 +23,12 @@ class ExpandableWeatherCard extends StatelessWidget {
       elevation: 4,
       color: Colors.white,
       child: GestureDetector(
+        key: Key('expandable_card_gesture_detector'),
         onTap: onTap,
         child: Column(
           children: [
             ListTile(
+              key: Key('expandable_card_list_tile'),
               title: Text(
                 DateFormat('EEEE, MMM d').format(date),
                 // Display the date
@@ -42,18 +44,17 @@ class ExpandableWeatherCard extends StatelessWidget {
                 ),
               ),
             ),
-            AnimatedCrossFade(
-              firstChild: Container(), // Empty container when collapsed
-              secondChild: Column(
-                children: hourlyData.map((weatherDetail) {
-                  return WeatherHourlyCard(weather: weatherDetail);
-                }).toList(),
+            AnimatedOpacity(
+              opacity: isExpanded ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 300),
+              child: Visibility(
+                visible: isExpanded,
+                child: Column(
+                  children: hourlyData.map((weatherDetail) {
+                    return WeatherHourlyCard(weather: weatherDetail);
+                  }).toList(),
+                ),
               ),
-              crossFadeState: isExpanded
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-              duration: const Duration(
-                  milliseconds: 300), // Duration of the animation
             ),
           ],
         ),
